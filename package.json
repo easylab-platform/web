@@ -1,0 +1,39 @@
+{
+  "name": "easylab-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@lucide/svelte": "^1.30.0",
+    "bits-ui": "^2.19.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "marked": "^18.0.10",
+    "neverthrow": "^8.2.0",
+    "svelte": "^5.56.10",
+    "tailwind-merge": "^3.6.0",
+    "tailwind-variants": "^3.3.1",
+    "zod": "^4.4.3",
+    "@connectrpc/connect": "^2.2.0",
+    "@connectrpc/connect-web": "^2.2.0",
+    "@easylab/client-sdk": "github:easylab-platform/easylab-client-sdk-ts#v0.1.1"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^7.3.0",
+    "@tailwindcss/typography": "^0.5.20",
+    "@tailwindcss/vite": "^4.3.3",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.2"
+  },
+  "description": "EasyLab web frontend (Svelte + Connect: agent.v1 via the easylab gateway)",
+  "allowScripts": {
+    "@easylab/client-sdk@0.1.1": true
+  }
+}
