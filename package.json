@@ -22,7 +22,7 @@
     "zod": "^4.4.3",
     "@connectrpc/connect": "^2.2.0",
     "@connectrpc/connect-web": "^2.2.0",
-    "@easylab/client-sdk": "github:easylab-platform/easylab-client-sdk-ts#v0.1.1"
+    "@easylab/sdk": "github:easylab-platform/easylab-sdk-typescript#v0.2.0"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^7.3.0",
@@ -34,6 +34,6 @@
   },
   "description": "EasyLab web frontend (Svelte + Connect: agent.v1 via the easylab gateway)",
   "allowScripts": {
-    "@easylab/client-sdk@0.1.1": true
+    "@easylab/sdk@0.2.0": true
   }
 }

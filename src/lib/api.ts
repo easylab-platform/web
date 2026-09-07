@@ -2,7 +2,7 @@ import type { SessionJson } from './schema'
 import { SessionRowSchema } from './schema'
 import { createClient, type Transport } from '@connectrpc/connect'
 import { createConnectTransport } from '@connectrpc/connect-web'
-import { AgentService, type Session as AgentSession } from '@easylab/client-sdk/agent'
+import { AgentService, type Session as AgentSession } from '@easylab/sdk/agent'
 import { err, ok, type Result, ResultAsync } from 'neverthrow'
 import { z } from 'zod'
 

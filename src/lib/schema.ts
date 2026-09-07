@@ -1,6 +1,6 @@
 // Local zod view over the proto session row (the UI contract kept stable
 // through the REST → Connect migration). Types that live in the proto now come
-// from @easylab/client-sdk/agent instead.
+// from @easylab/sdk/agent instead.
 import { z } from 'zod'
 
 export const SessionRowSchema = z.object({
