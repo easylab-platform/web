@@ -22,7 +22,7 @@
     "zod": "^4.4.3",
     "@connectrpc/connect": "^2.2.0",
     "@connectrpc/connect-web": "^2.2.0",
-    "@easylab/sdk": "github:easylab-platform/easylab-sdk-typescript#v0.4.2"
+    "@easylab/sdk": "github:easylab-platform/easylab-sdk-typescript#v0.4.4"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^7.3.0",
