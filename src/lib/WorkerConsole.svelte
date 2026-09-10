@@ -2,18 +2,29 @@
   // Sandbox job console: exercises the easylab SandboxService surface from the
   // browser. Lists sandboxes + jobs, streams live output via WatchJob, and
   // lets you run/kill commands.
-  import { onMount, onDestroy } from 'svelte'
-  import { createEasyLabClient } from '@easylab/sdk'
-  import type {
-    SandboxInfo,
-    JobEntry,
-    WatchJobResponse_Done,
-  } from '@easylab/sdk'
+  //
+  // The transport + client are built here: the SDK only ships the generated
+  // SandboxService descriptor and message types.
+  import { onMount } from 'svelte'
+  import { createClient, type Transport } from '@connectrpc/connect'
+  import { createConnectTransport } from '@connectrpc/connect-web'
+  import { SandboxService } from '@easylab/sdk'
+  import type { SandboxInfo } from '@easylab/sdk'
+  import type { JobEntry, WatchJobResponse_Done } from '@easylab/sdk/worker'
 
-  const client = createEasyLabClient({
-    baseUrl: (import.meta.env.VITE_EASYLAB_URL as string | undefined) ?? 'http://localhost',
-    token: (import.meta.env.VITE_EASYLAB_TOKEN as string | undefined) ?? '',
+  const origin =
+    (import.meta.env.VITE_EASYLAB_URL as string | undefined) ?? 'http://localhost'
+  const token = (import.meta.env.VITE_EASYLAB_TOKEN as string | undefined) ?? ''
+  const transport: Transport = createConnectTransport({
+    baseUrl: origin.replace(/\/+$/, ''),
+    interceptors: token
+      ? [next => async req => {
+          req.header.set('Authorization', `Bearer ${token}`)
+          return await next(req)
+        }]
+      : [],
   })
+  const sandbox = createClient(SandboxService, transport)
 
   let sandboxes: SandboxInfo[] = []
   let selected = ''
@@ -25,7 +36,7 @@
   let cmd = 'echo hello sandbox'
 
   async function refresh() {
-    const r = await client.sandbox.listSandboxes({})
+    const r = await sandbox.listSandboxes({})
     sandboxes = r.sandboxes ?? []
   }
 
@@ -34,7 +45,7 @@
     lines = []
     done = null
     if (aborter) aborter.abort()
-    const r = await client.sandbox.listJobs({ sandbox: name })
+    const r = await sandbox.listJobs({ sandbox: name })
     jobs = r.jobs ?? []
   }
 
@@ -44,7 +55,7 @@
     if (aborter) aborter.abort()
     aborter = new AbortController()
     try {
-      const stream = client.sandbox.watchJob({ sandbox: selected, req: { jobId } }, { signal: aborter.signal })
+      const stream = sandbox.watchJob({ sandbox: selected, req: { jobId } }, { signal: aborter.signal })
       for await (const ev of stream) {
         if (ev.event.case === 'output') {
           lines = [...lines, (ev.event as { value: string }).value]
@@ -60,12 +71,12 @@
 
   async function run() {
     if (!selected) return
-    const r = await client.sandbox.execute({ sandbox: selected, req: { command: cmd } })
+    const r = await sandbox.execute({ sandbox: selected, req: { command: cmd } })
     await openJob(r.jobId)
   }
 
   async function kill(jobId: string) {
-    await client.sandbox.jobKill({ sandbox: selected, req: { jobId } })
+    await sandbox.jobKill({ sandbox: selected, req: { jobId } })
   }
 
   onMount(refresh)

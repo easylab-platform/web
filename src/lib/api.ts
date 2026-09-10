@@ -1,6 +1,6 @@
 import type { SessionJson } from './schema'
 import { SessionRowSchema } from './schema'
-import { createClient, type Transport } from '@connectrpc/connect'
+import { createClient, type Client, type Transport } from '@connectrpc/connect'
 import { createConnectTransport } from '@connectrpc/connect-web'
 import { AgentService, type Session as AgentSession } from '@easylab/sdk/agent'
 import { err, ok, type Result, ResultAsync } from 'neverthrow'
@@ -23,7 +23,7 @@ const transport: Transport = createConnectTransport({
   baseUrl: origin.replace(/\/+$/, ''),
 })
 
-export const agent = createClient(AgentService, transport)
+const agent: Client<typeof AgentService> = createClient(AgentService, transport)
 
 const sessionJsonSchema = SessionRowSchema
 
