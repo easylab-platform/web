@@ -82,6 +82,7 @@ function sessionToRow(s: AgentSession): Record<string, unknown> {
     updated_at: s.updatedAt,
     last_used_at: s.lastUsedAt || null,
     locale: s.locale || undefined,
+    group: s.group || undefined,
   }
 }
 

@@ -19,6 +19,7 @@ export const SessionRowSchema = z.object({
   updated_at: z.string(),
   last_used_at: z.string().nullable(),
   locale: z.string().optional(),
+  group: z.string().optional(),
 })
 export type SessionRow = z.infer<typeof SessionRowSchema>
 export type SessionJson = SessionRow

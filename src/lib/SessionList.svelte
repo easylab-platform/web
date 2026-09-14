@@ -32,8 +32,13 @@
         onclick={() => onselect(s.name)}
       >
         <span class="flex flex-col items-start">
-          <span class="text-sm truncate font-medium">
+          <span class="text-sm truncate font-medium flex items-center gap-1.5">
             {s.name}
+            {#if s.group}
+              <span class="text-[9px] px-1.5 py-0.5 rounded-full bg-primary/15 text-primary leading-none">
+                Subsession
+              </span>
+            {/if}
           </span>
           <span class="text-xs text-muted-foreground truncate">{s.model || 'default'}</span>
         </span>
